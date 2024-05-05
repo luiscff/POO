@@ -32,5 +32,5 @@ public abstract class BaseActivity {
 
     public int getDurationInMinutes() { return durationInMinutes; }
 
-    public abstract int getBurnedCalories();
+    public abstract int getCaloriesBurned();
 }
