@@ -1,10 +1,11 @@
-package Sessions;
+package Model.Sessions;
 
-import Activities.BaseActivity;
+import Model.Activities.BaseActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class TrainingSession {
+public class TrainingSession implements Serializable {
     private final ArrayList<BaseActivity> activityList;
 
     public TrainingSession() {

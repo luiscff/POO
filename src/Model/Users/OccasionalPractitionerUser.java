@@ -1,4 +1,4 @@
-package Users;
+package Model.Users;
 
 public class OccasionalPractitionerUser extends BaseUser {
     public OccasionalPractitionerUser(int id, String name, String address, String email, int averageHeartRate) {

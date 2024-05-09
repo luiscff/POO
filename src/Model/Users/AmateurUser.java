@@ -1,4 +1,4 @@
-package Users;
+package Model.Users;
 
 public class AmateurUser extends BaseUser {
     public AmateurUser(int id, String name, String address, String email, int averageHeartRate) {
