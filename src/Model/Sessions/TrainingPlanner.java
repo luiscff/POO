@@ -1,6 +1,8 @@
-package Sessions;
+package Model.Sessions;
 
-public class TrainingPlanner {
+import java.io.Serializable;
+
+public class TrainingPlanner implements Serializable {
     /**
      * Array with 7 boolean values, each one representing a day of the week.
      * Week starts on Monday.

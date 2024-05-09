@@ -1,4 +1,4 @@
-package Activities;
+package Model.Activities;
 
 public enum ActivityDifficulty {
     BASIC,

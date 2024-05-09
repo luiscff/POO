@@ -1,6 +1,8 @@
-package Activities;
+package Model.Activities;
 
-public abstract class BaseActivity {
+import java.io.Serializable;
+
+public abstract class BaseActivity implements Serializable {
     protected final ActivityDifficulty activityDifficulty;
     protected int durationInMinutes;
 

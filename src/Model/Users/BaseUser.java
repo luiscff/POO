@@ -1,6 +1,8 @@
-package Users;
+package Model.Users;
 
-public abstract class BaseUser {
+import java.io.Serializable;
+
+public abstract class BaseUser implements Serializable {
     protected final int id;
     protected final String name;
     protected final String address;
