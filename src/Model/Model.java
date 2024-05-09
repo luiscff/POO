@@ -1,4 +1,6 @@
 package Model;
 
-public class Model {
+import java.io.Serializable;
+
+public class Model implements Serializable {
 }
