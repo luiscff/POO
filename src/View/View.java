@@ -1,5 +1,6 @@
 package View;
 
+import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -17,8 +18,8 @@ public class View {
     }
 
     public void printError(Exception e, String message) {
-        System.out.println(message);
         logger.severe(e.getMessage());
+        System.out.println(message);
     }
 
     public void printMenu(String[] menu) {
@@ -89,6 +90,34 @@ public class View {
             }
         }
         return frequenciaCardiaca;
+    }
+
+    public int iniciarSessao(Map<Integer,String> users) {
+
+        System.out.println("-".repeat(20));
+        System.out.println("Lista de Utilizadores no formato '<id>. <nomeUtilizador>':");
+        for (Map.Entry<Integer, String> entry : users.entrySet()) {
+            System.out.println(entry.getKey() + ". " + entry.getValue());
+        }
+        System.out.println("-".repeat(20));
+        System.out.print("Insira o ID do utilizador: ");
+        int id = 0;
+        boolean valid_id = false;
+        while (!valid_id) {
+            try {
+                id = sc.nextInt();
+                if (!users.containsKey(id)) {
+                    throw new Exception("Tentativa de Login com ID de utilizador inválido");
+                }
+                valid_id = true;
+            } catch (Exception e) {
+                printError(new Exception("ID de utilizador inválido"),
+                        "Por favor insira um ID de utilizador existente");
+            }
+
+        }
+        return id;
+
     }
 
 

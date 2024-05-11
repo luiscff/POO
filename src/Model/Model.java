@@ -11,13 +11,14 @@ import java.util.Map;
 
 public class Model implements Serializable {
     private Map<Integer, BaseUser> users;
+    private BaseUser userLoggedIn;
 
     public Model() {
         this.users = new HashMap<>();
     }
 
     public void registarUtilizador(String nome, String morada, String email, int freq, String nivel)
-            throws IllegalArgumentException{
+            throws IllegalArgumentException {
         switch (nivel) {
             case "Ocasional":
                 BaseUser user = new OccasionalPractitionerUser(nome, morada, email, freq);
@@ -35,6 +36,10 @@ public class Model implements Serializable {
                 throw new IllegalArgumentException("Nível de experiência inválido ao registar Utilizador: " + nivel);
 
         }
+    }
+
+    public void login(int id) {
+        userLoggedIn = this.getUser(id);
     }
 
     public void addUser(BaseUser user) throws IllegalArgumentException {
@@ -59,7 +64,12 @@ public class Model implements Serializable {
         users.put(user.getId(), user);
     }
 
-    public String[] getUserList() {
-        return users.values().stream().map(BaseUser::getName).toArray(String[]::new);
+    // Retorna um map com o ‘id’ e o nome de cada utilizador
+    public Map<Integer, String> getUserNames() {
+        Map<Integer, String> usersMap = new HashMap<>();
+        for (Map.Entry<Integer, BaseUser> entry : users.entrySet()) {
+            usersMap.put(entry.getKey(), entry.getValue().getName());
+        }
+        return usersMap;
     }
 }

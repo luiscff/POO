@@ -7,6 +7,7 @@ import View.View;
 
 //imports externos
 import java.io.IOException;
+import java.util.Map;
 
 
 public class Controller {
@@ -26,6 +27,16 @@ public class Controller {
         this.model = model;
         this.view = view;
         this.persistenceManager = new PersistenceManager();
+    }
+
+    public void guardarEstado() {
+        String fileName = view.readFileName();
+        try {
+            persistenceManager.saveState(fileName, model);
+            view.printMessage("Estado do programa guardado com sucesso");
+        } catch (IOException e) {
+            view.printError(e, "Erro ao guardar o estado do programa");
+        }
     }
 
     public void registarUtilizador() {
@@ -67,6 +78,39 @@ public class Controller {
 
     }
 
+    public void runUtilizador() {
+        while (true) {
+            view.printMenu(menuUtilizador);
+            int option = view.readMenuOption(menuUtilizador.length);
+            switch (option) {
+                case 0: //sair
+                    System.exit(0);
+                    break;
+                case 1: //consultar atividades
+                    view.printMessage("Feature ainda não implementada");
+                    break;
+                case 2: //consultar plano de treino
+                    view.printMessage("Feature ainda não implementada");
+                    break;
+                case 3: //registar nova atividade
+                    view.printMessage("Feature ainda não implementada");
+                    break;
+                case 4: //editar atividade
+                    view.printMessage("Feature ainda não implementada");
+                    break;
+                case 5: //editar plano de treino
+                    view.printMessage("Feature ainda não implementada");
+                    break;
+                case 6: //editar perfil
+                    view.printMessage("Feature ainda não implementada");
+                    break;
+                case 7: //guardar estado do programa
+                    this.guardarEstado();
+                    break;
+            }
+        }
+    }
+
     public void run() {
         //este método vai ser chamado no método init() da classe Workout_APP
         //vai ser responsável por controlar o fluxo do programa
@@ -88,31 +132,24 @@ public class Controller {
                         view.printError(e, "Erro ao carregar o estado do programa");
                     }
                     break;
-                case 2:
+                case 2: //registar utilizador
                     this.registarUtilizador();
                     view.printMessage("Utilizador registado com sucesso");
                     break;
-                case 3:
-//                    view.iniciarSessao();
-//                    this.runUser();
+                case 3: //iniciar sessão
+                    Map<Integer, String> userNames = model.getUserNames();
+                    int userId = view.iniciarSessao(userNames);
+                    model.login(userId);
+                    view.printMessage("Sessão iniciada com sucesso");
+                    this.runUtilizador();
+                case 4: //avançar no tempo
                     view.printMessage("Feature ainda não implementada");
                     break;
-                case 4:
-                    //avançar no tempo
-                    view.printMessage("Feature ainda não implementada");
-                    break;
-                case 5:
-                    //estatísticas
+                case 5: //estatísticas
                     view.printMessage("Feature ainda não implementada");
                     break;
                 case 6: //guardar estado do programa
-                    String fileName2 = view.readFileName();
-                    try {
-                        persistenceManager.saveState(fileName2, model);
-                        view.printMessage("Estado do programa guardado com sucesso");
-                    } catch (IOException e) {
-                        view.printError(e, "Erro ao guardar o estado do programa");
-                    }
+                    this.guardarEstado();
                     break;
             }
         }
