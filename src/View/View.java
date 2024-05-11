@@ -33,23 +33,28 @@ public class View {
             System.out.println(menu[i]);
         }
         System.out.println(0 + ". Sair");
-        for (int i = 0; i < longest_option; i++) System.out.print("-"); //prints a line of dashes
+        for (int i = 0; i < longest_option + 3 ; i++) System.out.print("-"); //prints a line of dashes
         System.out.println();
     }
 
+
+    public String readString(String message) {
+        System.out.print(message);
+        return sc.next();
+    }
     public int readMenuOption(int options_count) {
         boolean valid_option = false;
         int option = 0; // opção ‘default’ é o sair
         while (!valid_option){
-            System.out.print("Enter an option: ");
+            System.out.print("Escolha uma opção: ");
             try {
                 option = sc.nextInt();
                 if (option < 0 || option > options_count) {
-                    throw new Exception("Invalid option");
+                    printError(new Exception("Opção inválida"), "Por favor insira uma opção válida");
                 }
                 valid_option = true;
             } catch (Exception e) {
-                System.out.println("Please enter a valid option");
+                System.out.println("Por favor insira uma opção válida");
             }
         }
         return option;
@@ -66,5 +71,26 @@ public class View {
         }
         return fileName;
     }
+
+    public int readFrequenciaCardiaca() {
+        System.out.print("Insira a sua frequência cardíaca média (bpm): ");
+        int frequenciaCardiaca = 0;
+        boolean valid_frequencia = false;
+        while (!valid_frequencia) {
+            try {
+                frequenciaCardiaca = sc.nextInt();
+                if (frequenciaCardiaca < 0) {
+                    printError(new Exception("Frequência cardíaca inválida"),
+                            "Por favor insira uma frequência cardíaca válida");
+                }
+                valid_frequencia = true;
+            } catch (Exception e) {
+                System.out.println("Por favor insira uma frequência cardíaca válida");
+            }
+        }
+        return frequenciaCardiaca;
+    }
+
+
 
 }

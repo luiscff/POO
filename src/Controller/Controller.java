@@ -1,6 +1,7 @@
 package Controller;
 
 //imports internos
+
 import Model.Model;
 import View.View;
 
@@ -19,6 +20,7 @@ public class Controller {
     private final String[] menuUtilizador = {"Consultar Atividades", "Consultar Plano de Treino",
             "Registar nova Atividade", "Editar Atividade", "Editar Plano de Treino", "Editar Perfil",
             "Guardar estado do programa"};
+    private final String[] menuNiveis = {"Ocasional", "Amador", "Profissional"};
 
     public Controller(Model model, View view) {
         this.model = model;
@@ -26,24 +28,51 @@ public class Controller {
         this.persistenceManager = new PersistenceManager();
     }
 
+    public void registarUtilizador() {
+        String nome = view.readString("Insira o seu nome: ");
+        String email = view.readString("Insira o seu email: ");
+        String morada = view.readString("Insira a sua morada: ");
+        int freq = view.readFrequenciaCardiaca();
+
+        view.printMessage("Insira o seu nível de experiência: ");
+        view.printMenu(menuNiveis);
+        int nivel = view.readMenuOption(menuNiveis.length);
+
+        switch (nivel) {
+            case 0:
+                view.printMessage("Operação cancelada");
+                return;
+            case 1:
+                try {
+                    model.registarUtilizador(nome, email, morada, freq, "Ocasional");
+                } catch (IllegalArgumentException e) {
+                    view.printError(e, "Erro ao registar Utilizador");
+                }
+                break;
+            case 2:
+                try {
+                    model.registarUtilizador(nome, email, morada, freq, "Amador");
+                } catch (IllegalArgumentException e) {
+                    view.printError(e, "Erro ao registar Utilizador");
+                }
+                break;
+            case 3:
+                try {
+                    model.registarUtilizador(nome, email, morada, freq, "Profissional");
+                } catch (IllegalArgumentException e) {
+                    view.printError(e, "Erro ao registar Utilizador");
+                }
+                break;
+        }
+
+    }
+
     public void run() {
         //este método vai ser chamado no método init() da classe Workout_APP
         //vai ser responsável por controlar o fluxo do programa
 
 
-//        try {
-//            persistenceManager.saveState("state.bin", model);
-//        } catch (IOException e) {
-//            view.printError(e, "Erro ao guardar o estado do programa");
-//        }
-//
-//        try {
-//            Model model = persistenceManager.loadState("state.bin");
-//        } catch (IOException | ClassNotFoundException e) {
-//            view.printError(e, "Erro ao carregar o estado do programa");
-//        }
-
-        while (true){
+        while (true) {
             view.printMenu(menuInicial);
             int option = view.readMenuOption(menuInicial.length);
             switch (option) {
@@ -60,9 +89,8 @@ public class Controller {
                     }
                     break;
                 case 2:
-//                    view.registarUtilizador();
-//                    model.registarUtilizador();
-                    view.printMessage("Feature ainda não implementada");
+                    this.registarUtilizador();
+                    view.printMessage("Utilizador registado com sucesso");
                     break;
                 case 3:
 //                    view.iniciarSessao();

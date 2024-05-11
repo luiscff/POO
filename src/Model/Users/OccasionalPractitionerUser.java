@@ -1,8 +1,8 @@
 package Model.Users;
 
 public class OccasionalPractitionerUser extends BaseUser {
-    public OccasionalPractitionerUser(int id, String name, String address, String email, int averageHeartRate) {
-        super(id, name, address, email, averageHeartRate);
+    public OccasionalPractitionerUser(String name, String address, String email, int averageHeartRate) {
+        super(name, address, email, averageHeartRate);
     }
 
     @Override

@@ -1,16 +1,20 @@
 package Model.Users;
 
+import Model.Activities.BaseActivity;
+
 import java.io.Serializable;
 
 public abstract class BaseUser implements Serializable {
+    private static int lastId = 0;
     protected final int id;
     protected final String name;
     protected final String address;
     protected final String email;
     protected final int averageHeartRate;
+    protected BaseActivity[] activities;
 
-    protected BaseUser(int id, String name, String address, String email, int averageHeartRate) {
-        this.id = id;
+    protected BaseUser(String name, String address, String email, int averageHeartRate) {
+        this.id = ++lastId;
         this.name = name;
         this.address = address;
         this.email = email;
@@ -26,6 +30,8 @@ public abstract class BaseUser implements Serializable {
     public String getEmail() { return email; }
 
     public int getAverageHeartRate() { return averageHeartRate; }
+
+
 
     public abstract double getCalorieMultiplicationFactor();
 }
