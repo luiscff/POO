@@ -9,6 +9,7 @@ public class ProfessionalUser extends BaseUser {
         super(user);
     }
 
+
     @Override
     public double getCalorieMultiplicationFactor() {
         final double heartRateConversionFactor = 0.08;
