@@ -1,6 +1,7 @@
 package Model.Sessions;
 
 import Model.Activities.BaseActivity;
+import Model.Users.BaseUser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,10 +25,10 @@ public class TrainingSession implements Serializable {
         activityList.add(activity);
     }
 
-    public int getCaloriesBurned() {
+    public int getCaloriesBurned(BaseUser user) {
         int totalCaloriesBurned = 0;
         for (BaseActivity activity : activityList) {
-            totalCaloriesBurned += activity.getCaloriesBurned();
+            totalCaloriesBurned += activity.getCaloriesBurned(user);
         }
 
         return totalCaloriesBurned;

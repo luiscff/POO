@@ -1,5 +1,6 @@
 package View;
 
+
 import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -8,6 +9,7 @@ public class View {
 
     Scanner sc;
     Logger logger = Logger.getLogger(View.class.getName());
+    String separator = "-".repeat(50);
 
     public View() {
         sc = new Scanner(System.in);
@@ -23,8 +25,12 @@ public class View {
     }
 
     public void printMenu(String[] menu) {
+        this.printMenu(menu, "Menu");
+    }
+
+    public void printMenu(String[] menu, String message) {
         System.out.println();
-        System.out.println("MENU:");
+        System.out.println(message + ":");
         int longest_option = 0;
         for (int i = 0; i < menu.length; i++) { //prints each option
             if (menu[i].length() > longest_option) { //updates longest_option
@@ -38,11 +44,39 @@ public class View {
         System.out.println();
     }
 
+    public void printActivitiesList(String[] activities) {
+        System.out.println(this.separator);
+        System.out.println("Lista de Atividades:");
+        for (String activity : activities) {
+            System.out.println(activity);
+        }
+        System.out.println(this.separator);
+    }
+
 
     public String readString(String message) {
         System.out.print(message);
         return sc.next();
     }
+
+    public int readBiggerThanZero(String messageToPrint) {
+        this.printMessage(messageToPrint);
+        int number = 0;
+        boolean valid_number = false;
+        while (!valid_number) {
+            try {
+                number = sc.nextInt();
+                if (number <= 0) {
+                    throw new Exception("Número inválido");
+                }
+                valid_number = true;
+            } catch (Exception e) {
+                printError(e, "Por favor insira um número maior que 0");
+            }
+        }
+        return number;
+    }
+
     public int readMenuOption(int options_count) {
         boolean valid_option = false;
         int option = 0; // opção ‘default’ é o sair
@@ -51,11 +85,11 @@ public class View {
             try {
                 option = sc.nextInt();
                 if (option < 0 || option > options_count) {
-                    printError(new Exception("Opção inválida"), "Por favor insira uma opção válida");
+                    throw new Exception("Opção inválida");
                 }
                 valid_option = true;
             } catch (Exception e) {
-                System.out.println("Por favor insira uma opção válida");
+                printError(e, "Por favor insira uma opção válida");
             }
         }
         return option;
@@ -73,28 +107,11 @@ public class View {
         return fileName;
     }
 
-    public int readFrequenciaCardiaca() {
-        System.out.print("Insira a sua frequência cardíaca média (bpm): ");
-        int frequenciaCardiaca = 0;
-        boolean valid_frequencia = false;
-        while (!valid_frequencia) {
-            try {
-                frequenciaCardiaca = sc.nextInt();
-                if (frequenciaCardiaca < 0) {
-                    printError(new Exception("Frequência cardíaca inválida"),
-                            "Por favor insira uma frequência cardíaca válida");
-                }
-                valid_frequencia = true;
-            } catch (Exception e) {
-                System.out.println("Por favor insira uma frequência cardíaca válida");
-            }
-        }
-        return frequenciaCardiaca;
-    }
+
 
     public int iniciarSessao(Map<Integer,String> users) {
 
-        System.out.println("-".repeat(20));
+        System.out.println(this.separator);
         System.out.println("Lista de Utilizadores no formato '<id>. <nomeUtilizador>':");
         for (Map.Entry<Integer, String> entry : users.entrySet()) {
             System.out.println(entry.getKey() + ". " + entry.getValue());

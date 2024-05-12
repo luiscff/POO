@@ -5,9 +5,19 @@ public class AmateurUser extends BaseUser {
         super(name, address, email, averageHeartRate);
     }
 
+    public AmateurUser(AmateurUser user) {//construtor de copia
+        super(user);
+    }
+
+
     @Override
     public double getCalorieMultiplicationFactor() {
         final double heartRateConversionFactor = 0.07;
         return averageHeartRate * heartRateConversionFactor;
+    }
+
+    @Override
+    public AmateurUser clone() {
+        return new AmateurUser(this);
     }
 }

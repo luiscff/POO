@@ -1,29 +1,51 @@
 package Model.Activities;
 
+import Model.Users.BaseUser;
+
 import java.io.Serializable;
 
 public abstract class BaseActivity implements Serializable {
-    protected final ActivityDifficulty activityDifficulty;
-    protected int durationInMinutes;
+    private static int lastId = 0;
+    private String activityName;
+    private final int activityId;
+    private final int userId;
+    private int durationInMinutes;
+    private final ActivityDifficulty activityDifficulty;
 
-    protected BaseActivity() {
+    protected BaseActivity(String activityName, int userId) {
+        this.activityId = ++lastId;
+        this.activityName = activityName;
+        this.userId = userId;
         this.durationInMinutes = 0;
         this.activityDifficulty = ActivityDifficulty.BASIC;
     }
 
-    protected BaseActivity(int durationInMinutes) {
+    protected BaseActivity(String activityName, int userId, int durationInMinutes) {
+        this.activityId = ++lastId;
+        this.activityName = activityName;
+        this.userId = userId;
         this.durationInMinutes = durationInMinutes;
         this.activityDifficulty = ActivityDifficulty.BASIC;
     }
 
-    public BaseActivity(ActivityDifficulty activityDifficulty) {
+    public BaseActivity(String activityName, int userId, ActivityDifficulty activityDifficulty) {
+        this.activityId = ++lastId;
+        this.activityName = activityName;
+        this.userId = userId;
         this.durationInMinutes = 0;
         this.activityDifficulty = activityDifficulty;
     }
 
-    public BaseActivity(int durationInMinutes, ActivityDifficulty activityDifficulty) {
+    public BaseActivity(String activityName, int userId, int durationInMinutes, ActivityDifficulty activityDifficulty) {
+        this.activityId = ++lastId;
+        this.activityName = activityName;
+        this.userId = userId;
         this.durationInMinutes = durationInMinutes;
-        this.activityDifficulty = activityDifficulty;
+        if (activityDifficulty == null) {
+            this.activityDifficulty = ActivityDifficulty.BASIC;
+        } else {
+            this.activityDifficulty = activityDifficulty;
+        }
     }
 
     public void setDurationInMinutes(int durationInMinutes) {
@@ -34,5 +56,30 @@ public abstract class BaseActivity implements Serializable {
 
     public int getDurationInMinutes() { return durationInMinutes; }
 
-    public abstract int getCaloriesBurned();
+    public String getName() { return activityName; }
+
+    public abstract int getCaloriesBurned(BaseUser user);
+
+    public int getUserId() { return userId; }
+
+    public int getActivityId() { return activityId; }
+
+    //deve ser manter o activityId, senão vai ser uma atividade diferente
+    public abstract BaseActivity clone();
+
+    public abstract String toString();
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        BaseActivity baseActivity = (BaseActivity) obj;
+        return (activityId == baseActivity.activityId &&
+                userId == baseActivity.userId &&
+                durationInMinutes == baseActivity.durationInMinutes &&
+                activityDifficulty == baseActivity.activityDifficulty);
+    }
 }

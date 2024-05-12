@@ -5,9 +5,18 @@ public class ProfessionalUser extends BaseUser {
         super(name, address, email, averageHeartRate);
     }
 
+    public ProfessionalUser(ProfessionalUser user) {//construtor de copia
+        super(user);
+    }
+
     @Override
     public double getCalorieMultiplicationFactor() {
         final double heartRateConversionFactor = 0.08;
         return averageHeartRate * heartRateConversionFactor;
+    }
+
+    @Override
+    public ProfessionalUser clone() {
+        return new ProfessionalUser(this);
     }
 }

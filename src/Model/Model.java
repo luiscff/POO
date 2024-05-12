@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Activities.Corrida;
 import Model.Users.AmateurUser;
 import Model.Users.BaseUser;
 import Model.Users.OccasionalPractitionerUser;
@@ -13,8 +14,23 @@ public class Model implements Serializable {
     private Map<Integer, BaseUser> users;
     private BaseUser userLoggedIn;
 
+    //TODO: AVISO: CADA VEZ QUE SE ADICIONA UMA NOVA ATIVIDADE, TEM DE SE ADICIONAR A ESTAS LISTAS DE ACORDO COM OS IMPLEMENTS
+    public final String[] supportedActivities = {"Corrida"};
+    public final String[] activitiesAltimetria = {};
+    public final String[] activitiesDistance = {"Corrida"};
+    public final String[] activitiesRepetitions = {};
+    public final String[] activitiesWeight = {};
+
     public Model() {
         this.users = new HashMap<>();
+    }
+
+    public String[] getActivitiesList() {
+        return userLoggedIn.getActivitiesList();
+    }
+
+    public String getLoggedInUserName() {
+        return userLoggedIn.getName();
     }
 
     public void registarUtilizador(String nome, String morada, String email, int freq, String nivel)
@@ -35,6 +51,21 @@ public class Model implements Serializable {
             default:
                 throw new IllegalArgumentException("Nível de experiência inválido ao registar Utilizador: " + nivel);
 
+        }
+    }
+
+
+    //TODO: AVISO: CADA VEZ QUE SE ADICIONA UMA NOVA ATIVIDADE, TEM DE SE ADICIONAR AO SWITCH CASE
+    public void registarActivity(String activityName, int durationInMinutes, double distance,
+                                 double altitude, int repetitions, double weight) {
+
+        switch (activityName) {
+            case "Corrida":
+                Corrida activity = new Corrida(durationInMinutes, userLoggedIn.getId() , distance);
+                userLoggedIn.addActivity(activity);
+                break;
+            default:
+                throw new IllegalArgumentException("Atividade inválida ao registar atividade: " + activityName);
         }
     }
 
