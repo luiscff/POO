@@ -16,6 +16,11 @@ public class Controller {
     private Model model;
     private final View view;
     private final PersistenceManager persistenceManager;
+    private ControllerActivity controllerActivity;
+
+
+
+
     private final String[] menuInicial = {"Carregar estado do programa", "Registar Utilizador", "Iniciar Sessão",
             "Avançar no tempo", "Estatísticas", "Guardar estado do programa"};
     private final String[] menuUtilizador = {"Consultar Atividades", "Consultar Plano de Treino",
@@ -27,6 +32,7 @@ public class Controller {
         this.model = model;
         this.view = view;
         this.persistenceManager = new PersistenceManager();
+        this.controllerActivity = new ControllerActivity(model, view);
     }
 
     public void guardarEstado() {
@@ -43,10 +49,8 @@ public class Controller {
         String nome = view.readString("Insira o seu nome: ");
         String email = view.readString("Insira o seu email: ");
         String morada = view.readString("Insira a sua morada: ");
-        int freq = view.readFrequenciaCardiaca();
 
-        view.printMessage("Insira o seu nível de experiência: ");
-        view.printMenu(menuNiveis);
+        view.printMenu(menuNiveis, "Insira o seu nível de experiência");
         int nivel = view.readMenuOption(menuNiveis.length);
 
         switch (nivel) {
@@ -55,21 +59,21 @@ public class Controller {
                 return;
             case 1:
                 try {
-                    model.registarUtilizador(nome, email, morada, freq, "Ocasional");
+                    model.registarUtilizador(nome, email, morada, "Ocasional");
                 } catch (IllegalArgumentException e) {
                     view.printError(e, "Erro ao registar Utilizador");
                 }
                 break;
             case 2:
                 try {
-                    model.registarUtilizador(nome, email, morada, freq, "Amador");
+                    model.registarUtilizador(nome, email, morada, "Amador");
                 } catch (IllegalArgumentException e) {
                     view.printError(e, "Erro ao registar Utilizador");
                 }
                 break;
             case 3:
                 try {
-                    model.registarUtilizador(nome, email, morada, freq, "Profissional");
+                    model.registarUtilizador(nome, email, morada, "Profissional");
                 } catch (IllegalArgumentException e) {
                     view.printError(e, "Erro ao registar Utilizador");
                 }
@@ -78,22 +82,23 @@ public class Controller {
 
     }
 
+
     public void runUtilizador() {
         while (true) {
-            view.printMenu(menuUtilizador);
+            view.printMenu(menuUtilizador, "Menu pessoal de " + model.getLoggedInUserName());
             int option = view.readMenuOption(menuUtilizador.length);
             switch (option) {
                 case 0: //sair
                     System.exit(0);
                     break;
                 case 1: //consultar atividades
-                    view.printMessage("Feature ainda não implementada");
+                    view.printActivitiesList(model.getActivitiesList());
                     break;
                 case 2: //consultar plano de treino
                     view.printMessage("Feature ainda não implementada");
                     break;
                 case 3: //registar nova atividade
-                    view.printMessage("Feature ainda não implementada");
+                    controllerActivity.registarActivity();
                     break;
                 case 4: //editar atividade
                     view.printMessage("Feature ainda não implementada");
@@ -117,7 +122,7 @@ public class Controller {
 
 
         while (true) {
-            view.printMenu(menuInicial);
+            view.printMenu(menuInicial, "MENU INICIAL");
             int option = view.readMenuOption(menuInicial.length);
             switch (option) {
                 case 0: //sair
@@ -127,6 +132,12 @@ public class Controller {
                     String fileName = view.readFileName();
                     try {
                         model = persistenceManager.loadState(fileName);
+
+                        //TODO: AVISO - Todos os outros controllers têm de ser atualizados ao carrergar o estado
+                        controllerActivity = new ControllerActivity(model, view);
+                        //controller_outro = new Controller_outro(model, view);
+                        //etc...
+
                         view.printMessage("Estado do programa carregado com sucesso");
                     } catch (IOException | ClassNotFoundException e) {
                         view.printError(e, "Erro ao carregar o estado do programa");
