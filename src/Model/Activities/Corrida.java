@@ -4,7 +4,7 @@ import Model.Users.BaseUser;
 
 import java.time.LocalDate;
 
-public class Corrida extends BaseActivity implements Distance {
+public class Corrida extends BaseActivity implements IDistance {
 
     private double distance; //km
 

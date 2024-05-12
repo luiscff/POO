@@ -1,6 +1,6 @@
 package Model.Activities;
 
-public interface Repetitions {
+public interface IRepetitions {
     int getRepetitions();
     void setRepetitions(int repetitions);
 }
