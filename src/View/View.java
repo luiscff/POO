@@ -130,17 +130,23 @@ public class View {
     public int iniciarSessao(Map<Integer,String> users) {
 
         System.out.println(this.separator);
+        if (users.isEmpty()) {
+            printMessage("Não existem utilizadores registados");
+            return -1;
+        }
         System.out.println("Lista de Utilizadores no formato '<id>. <nomeUtilizador>':");
         for (Map.Entry<Integer, String> entry : users.entrySet()) {
             System.out.println(entry.getKey() + ". " + entry.getValue());
         }
-        System.out.println("-".repeat(20));
+        System.out.println("0. Sair");
+        System.out.println(this.separator);
         System.out.print("Insira o ID do utilizador: ");
-        int id = 0;
+        int id = -1;
         boolean valid_id = false;
         while (!valid_id) {
             try {
                 id = sc.nextInt();
+                if (id==0) return -1;
                 if (!users.containsKey(id)) {
                     throw new Exception("Tentativa de Login com ID de utilizador inválido");
                 }

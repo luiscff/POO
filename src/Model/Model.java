@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Activities.Corrida;
+import Model.Activities.Supino;
 import Model.Users.AmateurUser;
 import Model.Users.BaseUser;
 import Model.Users.OccasionalPractitionerUser;
@@ -17,11 +18,11 @@ public class Model implements Serializable {
     protected LocalDate date;
 
     //TODO: AVISO: CADA VEZ QUE SE ADICIONA UMA NOVA ATIVIDADE, TEM DE SE ADICIONAR A ESTAS LISTAS DE ACORDO COM OS IMPLEMENTS
-    public final String[] supportedActivities = {"Corrida"};
+    public final String[] supportedActivities = {"Corrida","Supino"};
     public final String[] activitiesAltimetria = {};
     public final String[] activitiesDistance = {"Corrida"};
-    public final String[] activitiesRepetitions = {};
-    public final String[] activitiesWeight = {};
+    public final String[] activitiesRepetitions = {"Supino"};
+    public final String[] activitiesWeight = {"Supino"};
 
     public Model() {
         this.users = new HashMap<>();
@@ -68,6 +69,10 @@ public class Model implements Serializable {
             case "Corrida":
                 Corrida activity = new Corrida(durationInMinutes, userLoggedIn.getId() , distance, heartRate, date);
                 userLoggedIn.addActivity(activity);
+                break;
+            case "Supino":
+                Supino activity2 = new Supino(durationInMinutes, userLoggedIn.getId(), heartRate, weight, repetitions, date);
+                userLoggedIn.addActivity(activity2);
                 break;
             default:
                 throw new IllegalArgumentException("Atividade inválida ao registar atividade: " + activityName);

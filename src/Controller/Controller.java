@@ -154,6 +154,7 @@ public class Controller {
                 case 3: //iniciar sessão
                     Map<Integer, String> userNames = model.getUserNames();
                     int userId = view.iniciarSessao(userNames);
+                    if (userId == -1) break;
                     model.login(userId);
                     view.printMessage("Sessão iniciada com sucesso");
                     this.runUtilizador();
