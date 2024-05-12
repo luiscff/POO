@@ -7,12 +7,14 @@ import Model.Users.OccasionalPractitionerUser;
 import Model.Users.ProfessionalUser;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Model implements Serializable {
     private Map<Integer, BaseUser> users;
     private BaseUser userLoggedIn;
+    protected LocalDate date;
 
     //TODO: AVISO: CADA VEZ QUE SE ADICIONA UMA NOVA ATIVIDADE, TEM DE SE ADICIONAR A ESTAS LISTAS DE ACORDO COM OS IMPLEMENTS
     public final String[] supportedActivities = {"Corrida"};
@@ -23,6 +25,8 @@ public class Model implements Serializable {
 
     public Model() {
         this.users = new HashMap<>();
+        this.userLoggedIn = null;
+        this.date = LocalDate.now();
     }
 
     public String[] getActivitiesList() {
@@ -37,15 +41,15 @@ public class Model implements Serializable {
             throws IllegalArgumentException {
         switch (nivel) {
             case "Ocasional":
-                BaseUser user = new OccasionalPractitionerUser(nome, morada, email);
+                BaseUser user = new OccasionalPractitionerUser(nome, morada, email, date);
                 addUser(user);
                 break;
             case "Amador":
-                BaseUser user2 = new AmateurUser(nome, morada, email);
+                BaseUser user2 = new AmateurUser(nome, morada, email, date);
                 addUser(user2);
                 break;
             case "Profissional":
-                BaseUser user3 = new ProfessionalUser(nome, morada, email);
+                BaseUser user3 = new ProfessionalUser(nome, morada, email, date);
                 addUser(user3);
                 break;
             default:
@@ -58,11 +62,11 @@ public class Model implements Serializable {
     //TODO: AVISO: CADA VEZ QUE SE ADICIONA UMA NOVA ATIVIDADE, TEM DE SE ADICIONAR AO SWITCH CASE
     public void registarActivity(String activityName, int durationInMinutes,
                                  int heartRate, double distance,
-                                 double altitude, int repetitions, double weight) {
+                                 double altitude, int repetitions, double weight, LocalDate date) {
 
         switch (activityName) {
             case "Corrida":
-                Corrida activity = new Corrida(durationInMinutes, userLoggedIn.getId() , distance, heartRate);
+                Corrida activity = new Corrida(durationInMinutes, userLoggedIn.getId() , distance, heartRate, date);
                 userLoggedIn.addActivity(activity);
                 break;
             default:
@@ -88,6 +92,10 @@ public class Model implements Serializable {
         return users.get(id);
     }
 
+    public LocalDate getDate() { //LocalDate é imutável, logo não é necessário retornar uma cópia
+        return date;
+    }
+
     public void removeUser(int id) {
         users.remove(id);
     }
@@ -104,4 +112,20 @@ public class Model implements Serializable {
         }
         return usersMap;
     }
+
+    public void timeSkip(LocalDate newDate) {
+        if (newDate.isAfter(date)) {
+            // Atualiza a data do sistema de todos os utilizadores
+            for (Map.Entry<Integer, BaseUser> entry : users.entrySet()) {
+                entry.getValue().timeSkip(newDate);
+            }
+
+            // Atualiza a data do sistema
+            date = newDate;
+
+        } else {
+            throw new IllegalArgumentException("Data de salto no tempo tem que ser no futuro");
+        }
+    }
+
 }

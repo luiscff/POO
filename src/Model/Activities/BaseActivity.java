@@ -3,6 +3,7 @@ package Model.Activities;
 import Model.Users.BaseUser;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public abstract class BaseActivity implements Serializable {
     private static int lastId = 0;
@@ -12,33 +13,11 @@ public abstract class BaseActivity implements Serializable {
     private int durationInMinutes;
     private final ActivityDifficulty activityDifficulty;
     private int heartRate;
+    private LocalDate date;
 
-    protected BaseActivity(String activityName, int userId) {
-        this.activityId = ++lastId;
-        this.activityName = activityName;
-        this.userId = userId;
-        this.durationInMinutes = 0;
-        this.activityDifficulty = ActivityDifficulty.BASIC;
-    }
-
-    protected BaseActivity(String activityName, int userId, int durationInMinutes) {
-        this.activityId = ++lastId;
-        this.activityName = activityName;
-        this.userId = userId;
-        this.durationInMinutes = durationInMinutes;
-        this.activityDifficulty = ActivityDifficulty.BASIC;
-    }
-
-    public BaseActivity(String activityName, int userId, ActivityDifficulty activityDifficulty) {
-        this.activityId = ++lastId;
-        this.activityName = activityName;
-        this.userId = userId;
-        this.durationInMinutes = 0;
-        this.activityDifficulty = activityDifficulty;
-    }
 
     public BaseActivity(String activityName, int userId, int durationInMinutes, ActivityDifficulty activityDifficulty,
-                        int heartRate) {
+                        int heartRate, LocalDate date) {
         this.activityId = ++lastId;
         this.activityName = activityName;
         this.userId = userId;
@@ -49,6 +28,7 @@ public abstract class BaseActivity implements Serializable {
             this.activityDifficulty = activityDifficulty;
         }
         this.heartRate = heartRate;
+        this.date = date;
 
     }
 
@@ -70,6 +50,8 @@ public abstract class BaseActivity implements Serializable {
 
     public int getHeartRate() { return heartRate; }
 
+    public LocalDate getDate() { return date; }
+
     public void setHeartRate(int heartRate) { this.heartRate = heartRate; }
 
     //deve ser manter o activityId, senão vai ser uma atividade diferente
@@ -88,6 +70,7 @@ public abstract class BaseActivity implements Serializable {
         return (activityId == baseActivity.activityId &&
                 userId == baseActivity.userId &&
                 durationInMinutes == baseActivity.durationInMinutes &&
-                activityDifficulty == baseActivity.activityDifficulty);
+                activityDifficulty == baseActivity.activityDifficulty) &&
+                heartRate == baseActivity.heartRate;
     }
 }

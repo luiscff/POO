@@ -1,8 +1,10 @@
 package Model.Users;
 
+import java.time.LocalDate;
+
 public class OccasionalPractitionerUser extends BaseUser {
-    public OccasionalPractitionerUser(String name, String address, String email) {
-        super(name, address, email);
+    public OccasionalPractitionerUser(String name, String address, String email, LocalDate date) {
+        super(name, address, email, date);
     }
 
     public OccasionalPractitionerUser(OccasionalPractitionerUser user) {//construtor de copia

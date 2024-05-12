@@ -3,6 +3,7 @@ package Controller;
 import Model.Model;
 import View.View;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 public class ControllerActivity {
@@ -36,6 +37,7 @@ public class ControllerActivity {
 
         int duracao = view.readBiggerThanZero("Insira a duração da atividade (minutos): ");
         int heartRate = view.readBiggerThanZero("Insira a frequência cardíaca média durante a atividade (bpm): ");
+        LocalDate date = view.readDate("Insira a data da atividade (dd-mm-yyyy): ");
 
         try {
             switch (activity) {
@@ -58,7 +60,8 @@ public class ControllerActivity {
                     } else if (Arrays.asList(activitiesWeight).contains(activityName)) {
                         weight = view.readBiggerThanZero("Insira o peso levantado (kg): ");
                     }
-                    model.registarActivity(activityName, duracao, heartRate, distance, altitude, repetitions, weight);
+                    model.registarActivity(activityName, duracao, heartRate, distance, altitude,
+                            repetitions, weight, date);
             }
         } catch (IllegalArgumentException e) {
             view.printError(e, "Erro ao registar atividade");

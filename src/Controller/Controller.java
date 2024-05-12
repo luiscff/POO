@@ -7,6 +7,7 @@ import View.View;
 
 //imports externos
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Map;
 
 
@@ -85,6 +86,7 @@ public class Controller {
 
     public void runUtilizador() {
         while (true) {
+            view.printMessage("Data do sistema: " + model.getDate().toString());
             view.printMenu(menuUtilizador, "Menu pessoal de " + model.getLoggedInUserName());
             int option = view.readMenuOption(menuUtilizador.length);
             switch (option) {
@@ -122,7 +124,9 @@ public class Controller {
 
 
         while (true) {
+            view.printMessage("Data do sistema: " + model.getDate().toString());
             view.printMenu(menuInicial, "MENU INICIAL");
+
             int option = view.readMenuOption(menuInicial.length);
             switch (option) {
                 case 0: //sair
@@ -154,7 +158,13 @@ public class Controller {
                     view.printMessage("Sessão iniciada com sucesso");
                     this.runUtilizador();
                 case 4: //avançar no tempo
-                    view.printMessage("Feature ainda não implementada");
+                    LocalDate newDate = view.readDate("Insira a nova data (dd-mm-yyyy) : ");
+                    try {
+                        model.timeSkip(newDate);
+                        view.printMessage("Data avançada com sucesso");
+                    } catch (IllegalArgumentException e) {
+                        view.printError(e, "Erro ao avançar no tempo");
+                    }
                     break;
                 case 5: //estatísticas
                     view.printMessage("Feature ainda não implementada");

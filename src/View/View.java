@@ -1,6 +1,7 @@
 package View;
 
 
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -57,6 +58,23 @@ public class View {
     public String readString(String message) {
         System.out.print(message);
         return sc.next();
+    }
+
+
+    public LocalDate readDate(String s) {
+        this.printMessage(s);
+        LocalDate date = null;
+        boolean valid_date = false;
+        while (!valid_date) {
+            try {
+                String[] date_parts = sc.next().split("-");
+                date = LocalDate.of(Integer.parseInt(date_parts[2]), Integer.parseInt(date_parts[1]), Integer.parseInt(date_parts[0]));
+                valid_date = true;
+            } catch (Exception e) {
+                printError(e, "Por favor insira uma data válida no formato dd-mm-yyyy");
+            }
+        }
+        return date;
     }
 
     public int readBiggerThanZero(String messageToPrint) {

@@ -2,18 +2,20 @@ package Model.Activities;
 
 import Model.Users.BaseUser;
 
+import java.time.LocalDate;
+
 public class Corrida extends BaseActivity implements Distance {
 
     private double distance; //km
 
-    public Corrida(int durationInMinutes, int userId, double distance, int heartRate) {
-        super("Corrida", userId, durationInMinutes, ActivityDifficulty.BASIC, heartRate);
+    public Corrida(int durationInMinutes, int userId, double distance, int heartRate, LocalDate date) {
+        super("Corrida", userId, durationInMinutes, ActivityDifficulty.BASIC, heartRate, date);
         this.distance = distance;
     }
 
     public Corrida(Corrida corrida) { //construtor de copia (mantém o mesmo activityId)
         super(corrida.getName(), corrida.getUserId(), corrida.getDurationInMinutes(),
-                corrida.getActivityDifficulty(), corrida.getHeartRate());
+                corrida.getActivityDifficulty(), corrida.getHeartRate(), corrida.getDate());
         this.distance = corrida.getDistance();
     }
 
@@ -60,8 +62,9 @@ public class Corrida extends BaseActivity implements Distance {
                 ", userId=" + getUserId() +
                 ", durationInMinutes=" + getDurationInMinutes() +
                 ", activityDifficulty=" + getActivityDifficulty() +
-                ", distance=" + getDistance() +
                 ", heartRate=" + getHeartRate() +
+                ", distance=" + getDistance() +
+                ", date=" + getDate() +
                 '}';
     }
 

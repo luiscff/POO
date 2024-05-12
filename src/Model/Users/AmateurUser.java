@@ -1,8 +1,10 @@
 package Model.Users;
 
+import java.time.LocalDate;
+
 public class AmateurUser extends BaseUser {
-    public AmateurUser(String name, String address, String email) {
-        super(name, address, email);
+    public AmateurUser(String name, String address, String email, LocalDate date) {
+        super(name, address, email, date);
     }
 
     public AmateurUser(AmateurUser user) {//construtor de copia
