@@ -62,6 +62,25 @@ public class ControllerActivity {
                     }
                     model.registarActivity(activityName, duracao, heartRate, distance, altitude,
                             repetitions, weight, date);
+                case 2:
+                    String activityName2 = supportedActivities[activity - 1];
+                    double distance2 = -1;
+                    double altitude2 = -1;
+                    int repetitions2 = -1;
+                    double weight2 = -1;
+                    //if activityName is in one of the lists, ask for the respective value
+                    if (Arrays.asList(activitiesDistance).contains(activityName2)) {
+                        distance2 = view.readBiggerThanZero("Insira a distância percorrida (km): ");
+                    } else if (Arrays.asList(activitiesAltimetria).contains(activityName2)) {
+                        //assumimos que a altimetria é sempre positiva para simplificar
+                        altitude2 = view.readBiggerThanZero("Insira a altimetria acumulada (m): ");
+                    } else if (Arrays.asList(activitiesRepetitions).contains(activityName2)) {
+                        repetitions2 = view.readBiggerThanZero("Insira o número de repetições: ");
+                    } else if (Arrays.asList(activitiesWeight).contains(activityName2)) {
+                        weight2 = view.readBiggerThanZero("Insira o peso levantado (kg): ");
+                    }
+                    model.registarActivity(activityName2, duracao, heartRate, distance2, altitude2,
+                            repetitions2, weight2, date);
             }
         } catch (IllegalArgumentException e) {
             view.printError(e, "Erro ao registar atividade");

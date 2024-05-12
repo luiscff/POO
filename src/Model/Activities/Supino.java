@@ -4,7 +4,7 @@ import Model.Users.BaseUser;
 
 import java.time.LocalDate;
 
-public class Supino extends BaseActivity implements Weight, Repetitions{
+public class Supino extends BaseActivity implements IWeight, IRepetitions {
     private double weight;
     private int repetitions;
 
